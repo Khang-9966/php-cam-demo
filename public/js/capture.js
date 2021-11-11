@@ -1,12 +1,12 @@
 var i = 1;
 var array_image = [];
 
-const _camera_url = 'http://192.168.2.130';
-const _get_raw_stream = 'http://192.168.2.130:5000/get_rawstream';
-const _registry_face = 'http://192.168.2.130:5000/face_registry';
-const _kill_stream = 'http://192.168.2.130:5000/kill_rawstream'
-const _start_detect = 'http://192.168.2.130:5000/start_detect_stream';
-const _kill_detect = 'http://192.168.2.130:5000/kill_detect_stream';
+const _camera_url = 'http://192.168.0.100';
+const _get_raw_stream = 'http://192.168.0.100:5000/get_rawstream';
+const _registry_face = 'http://192.168.0.100:5000/face_registry';
+const _kill_stream = 'http://192.168.0.100:5000/kill_rawstream'
+const _start_detect = 'http://192.168.0.100:5000/start_detect_stream';
+const _kill_detect = 'http://192.168.0.100:5000/kill_detect_stream';
 
 var stream_url = '';
 
@@ -15,6 +15,7 @@ function getStream() {
         title: "Camera",
         text: "Nhập đường link đến camera",
         input: 'text',
+        inputValue: "rtsp://admin:AI_team123@192.168.0.111:554/Streaming/Channels/101",
         showCancelButton: true
     }).then((result) => {
         if (result.value) {
@@ -122,6 +123,15 @@ function openRegister() {
     $('#register_modal').modal('show');
 }
 
+function resetRegister() {
+    for (let i = 1; i <= array_image.length; i++) {
+        let canvas = document.getElementById('canvas_' + i);
+        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+    }
+    i = 1;
+    array_image = []
+}
+
 function sendRegister() {
     let data = new FormData();
     array_image.forEach(function (image, i) {
@@ -139,16 +149,15 @@ function sendRegister() {
         processData: false,
         success: function (data) {
             var msg = data;
-            $.post(_kill_stream, {url: stream_url})
+            $.post(_kill_stream, {url: ""})
                 .done(function (text) {
                     $('#register_modal').modal('hide');
                     Swal.fire({
                         icon: 'success',
                         title: 'Đăng ký thành công!',
                         text: msg
-                    }).then(function () {
-                        location.reload();
-                    });
+                    })
+                    .then(resetRegister());
                 })
         }, error: function (xhr, desc, err) {
             console.log(err);
@@ -172,17 +181,22 @@ function sendDangerZone() {
             localStorage.setItem('stream_url', stream_url);
 
             $('#danger_modal').modal('hide');
-            $.post(_kill_stream, {url: stream_url})
+            $.post(_kill_stream, {url: ""})
                 .done(function (text) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Khoanh vùng thành công!',
-                    }).then(function () {
-                        location.reload();
-                    });
+                        title: 'Cấu hình theo dõi thành công!',
+                    })
+                    // .then(function () {
+                    //     location.reload();
+                    // });
                 });
         }
     });
+}
+
+function killStream(){
+    $.post(_kill_stream, {url: stream_url})
 }
 
 function stopDetect(){

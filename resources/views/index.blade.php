@@ -26,7 +26,7 @@
 <body>
 <section id="top_content">
     <div class="container">
-        <h2>Virtual Stream</h2>
+        <h2>THỬ NGHIỆM HỆ THỐNG GIÁM SÁT</h2>
     </div>
 </section>
 <!--Top_content-->
@@ -44,16 +44,17 @@
                         <div id="output" style="height: 500px; overflow: scroll; overflow-x: hidden;">
                             <canvas id="canvas_1" style="overflow: auto"></canvas>
                         </div>
-                        <button class="btn btn-info" onclick="openRegister()">Gửi</button>
+                        <button class="btn btn-info" onclick="openRegister()">Đăng Ký Mặt</button>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <button class="btn btn-lg btn-info" onclick="getStream()">Mở Camera</button>
+                    <button class="btn btn-lg btn-info" onclick="getStream()">Đọc Camera</button>
+                    <button class="btn btn-lg btn-info" onclick="killStream()">Ngưng Đọc Camera</button>
                     <button class="btn btn-lg btn-info" onclick="takeshot()">Chụp ảnh</button>
                     <button class="btn btn-lg btn-info" onclick="dangerZone()">Vẽ vùng</button>
-                    <a class="btn btn-lg btn-info" href="follow" target="_blank">Theo dõi</a>
+                    <a class="btn btn-lg btn-info" href="follow" target="_blank" onclick="killStream()">Theo dõi</a>
                 </div>
             </div>
         </div>
@@ -74,7 +75,7 @@
                     </div>
                 </div>
                 <div class="modal-footer text-center">
-                    <button class="btn btn-info" onclick="sendRegister()">Gửi</button>
+                    <button class="btn btn-info" onclick="sendRegister()">Đăng Ký Mặt</button>
                 </div>
             </div>
         </div>
